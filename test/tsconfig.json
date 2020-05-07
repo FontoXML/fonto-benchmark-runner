@@ -1,0 +1,25 @@
+{
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": "..",
+		"paths": {
+			"fonto-benchmark-runner": [
+				"src/index.ts"
+			]
+		},
+		"strict": false,
+		"inlineSources": true,
+		"types": [
+			"mocha",
+			"node"
+		]
+	},
+	"include": [
+		"../src/**/*",
+		"**/*"
+	],
+	"exclude": [
+		"./assets",
+		"./built"
+	]
+}

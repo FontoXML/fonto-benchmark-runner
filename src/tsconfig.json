@@ -1,0 +1,18 @@
+{
+	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		"baseUrl": "..",
+		"esModuleInterop": true,
+		"lib": [
+			"dom"
+		],
+		"module": "commonjs",
+		"outDir": "../lib",
+		"sourceMap": false,
+		"target": "esNext",
+		"allowSyntheticDefaultImports": true
+	},
+	"include": [
+		"**/*"
+	]
+}

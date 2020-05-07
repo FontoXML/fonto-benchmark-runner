@@ -1,0 +1,46 @@
+#!/usr/bin/env ts-node
+
+'use strict';
+
+const startServer = require('../lib/server.js').default;
+const runTests = require('../lib/runBenchmarks.js').default;
+
+const parseArgv = require('./parseArgv');
+const packageJson = require('../package.json');
+
+(async function() {
+	const { server, port, node } = await parseArgv(packageJson, process.argv, {
+		description: 'Run performance benchmarks on Fonto packages in Node or in the browser',
+		options: {
+			server: {
+				identifier: '[--server]',
+				description: 'Run benchmarks in the browser',
+				defaultValue: false
+			},
+			port: {
+				identifier: '[--port <port>]',
+				description: 'Set a port for the server',
+				defaultValue: 8081
+			},
+			node: {
+				identifier: '[--node]',
+				description: 'Run tests in Node',
+				defaultValue: false
+			}
+		}
+	});
+
+	if (node === server) {
+		console.error('Either pass --server or --node');
+		process.exit(-1);
+	}
+
+	if (node) {
+		console.log(runTests);
+		runTests();
+	}
+
+	if (server) {
+		startServer(port);
+	}
+})();
