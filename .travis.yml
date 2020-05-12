@@ -1,0 +1,10 @@
+language: node_js
+node_js: 'node'
+cache: npm
+
+# Greenkeeper wants to install new versions of packages, often
+# disregarding the package lock. This does not always work with `npm ci`
+install: case $TRAVIS_BRANCH in greenkeeper*) npm i;; *) npm ci;; esac;
+
+script:
+    - npm run test -- --reporter dot;
