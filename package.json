@@ -1,7 +1,7 @@
 {
-  "name": "fonto-benchmark-runner",
-  "version": "1.0.0",
-  "description": "This tool can measure the performance of a function and compare the performances of different functions.",
+  "name": "@fontoxml/fonto-benchmark-runner",
+  "version": "0.0.1",
+  "description": "This tool can build a fonto-related tool to measure the performance of a function and compare the performances of different functions.",
   "main": "lib/index.js",
   "scripts": {
     "test": "ts-mocha --paths -p test/tsconfig.json \"test/**/*.ts\" --timeout 20000 --extension ts",
