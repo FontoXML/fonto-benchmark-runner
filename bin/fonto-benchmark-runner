@@ -1,6 +1,16 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
+
+console.log('!!!');
 
 'use strict';
+
+require('ts-node').register({
+	"extends": `${process.cwd()}/tsconfig.json`,
+	"compilerOptions": {
+		"module": "commonjs",
+		"strict": false
+	}
+});
 
 const startServer = require('../lib/server.js').default;
 const runTests = require('../lib/runBenchmarks.js').default;

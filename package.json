@@ -1,12 +1,16 @@
 {
   "name": "@fontoxml/fonto-benchmark-runner",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "This tool can build a fonto-related tool to measure the performance of a function and compare the performances of different functions.",
   "main": "lib/index.js",
   "scripts": {
     "test": "ts-mocha --paths -p test/tsconfig.json \"test/**/*.ts\" --timeout 20000 --extension ts",
     "build": "tsc"
   },
+  "keywords": [
+    "fonto-benchmark-runner",
+    "benchmark"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FontoXML/fonto-benchmark-runner.git"
@@ -20,6 +24,11 @@
     "url": "https://github.com/FontoXML/fonto-benchmark-runner/issues"
   },
   "homepage": "https://github.com/FontoXML/fonto-benchmark-runner#readme",
+  "files": [
+    "bin/*",
+    "lib/*",
+    "lib/**/*"
+  ],
   "dependencies": {
     "@rollup/plugin-alias": "^3.1.0",
     "@rollup/plugin-commonjs": "^11.1.0",

@@ -1,4 +1,3 @@
-import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import alias from '@rollup/plugin-alias';
@@ -69,7 +68,7 @@ export default function runServer({ port = 8080 } = { port: 8080 }) {
 			importBenchmarks(),
 			alias({
 				entries: {
-					'fonto-benchmark-runner': `${__dirname}/../lib/benchmarkRunner/BenchmarkRunner.js`,
+					'@fontoxml/fonto-benchmark-runner': `${__dirname}/../lib/benchmarkRunner/BenchmarkRunner.js`,
 				},
 			}),
 			resolve(),
@@ -101,7 +100,6 @@ export default function runServer({ port = 8080 } = { port: 8080 }) {
 				// Serve files!
 				//
 				if (request.url.startsWith('/test')) {
-					//	console.log('Serving .' + request.url);
 					rootFileServer.serve(request, response);
 					return;
 				}
