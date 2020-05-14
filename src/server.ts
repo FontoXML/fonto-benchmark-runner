@@ -100,6 +100,7 @@ export default function runServer({ port = 8080 } = { port: 8080 }) {
 				// Serve files!
 				//
 				if (request.url.startsWith('/test')) {
+					console.log('Serving .' + request.url);
 					rootFileServer.serve(request, response);
 					return;
 				}
