@@ -26,7 +26,6 @@
   "homepage": "https://github.com/FontoXML/fonto-benchmark-runner#readme",
   "files": [
     "bin/*",
-    "lib/*",
     "lib/**/*"
   ],
   "dependencies": {

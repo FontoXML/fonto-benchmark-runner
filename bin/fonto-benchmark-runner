@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-console.log('!!!');
-
 'use strict';
 
 require('ts-node').register({
