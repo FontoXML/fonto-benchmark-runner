@@ -13,7 +13,7 @@ export default function runServer({ port = 8080 } = { port: 8080 }) {
 	const cwd = process.cwd();
 
 	const builtFileServer = new staticAlias.Server(`${__dirname}/../lib`);
-	const performanceFileServer = new staticAlias.Server(`${__dirname}/../src`);
+	const performanceFileServer = new staticAlias.Server(`${__dirname}/../lib`);
 	const rootFileServer = new staticAlias.Server(`${cwd}`);
 	const modulesFileServer = new staticAlias.Server(`${cwd}/node_modules`);
 

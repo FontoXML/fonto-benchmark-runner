@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "ts-mocha --paths -p test/tsconfig.json \"test/**/*.ts\" --timeout 20000 --extension ts",
-    "build": "tsc"
+    "build": "tsc; cp src/index.html lib/index.html"
   },
   "keywords": [
     "fonto-benchmark-runner",
