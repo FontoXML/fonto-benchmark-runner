@@ -1,6 +1,6 @@
 {
   "name": "@fontoxml/fonto-benchmark-runner",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "This tool can build a fonto-related tool to measure the performance of a function and compare the performances of different functions.",
   "main": "lib/index.js",
   "scripts": {
