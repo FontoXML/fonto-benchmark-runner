@@ -1,4 +1,4 @@
-import resolve from '@rollup/plugin-node-resolve';
+import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import alias from '@rollup/plugin-alias';
 import http, { IncomingMessage, ServerResponse } from 'http';
@@ -27,12 +27,12 @@ export default function runServer({ port = 8080 } = { port: 8080 }) {
 	console.log('server starting');
 
 	// TODO: do this in a watch
-	let program = ts.createProgram(fileNames, {
+	const program = ts.createProgram(fileNames, {
 		module: ts.ModuleKind.ESNext,
 		outDir: `${__dirname}/../tmp`,
 		strict: false,
 	});
-	let program2 = ts.createProgram(performanceTestFiles, {
+	const program2 = ts.createProgram(performanceTestFiles, {
 		module: ts.ModuleKind.ESNext,
 		outDir: `${__dirname}/../tmp/performance`,
 		paths: {
@@ -42,8 +42,8 @@ export default function runServer({ port = 8080 } = { port: 8080 }) {
 		strict: false,
 	});
 
-	let emitResult = program.emit();
-	let emitResult2 = program2.emit();
+	program.emit();
+	program2.emit();
 
 	const watch = rollup.watch({
 		// This is just the generated list of imports
@@ -71,7 +71,7 @@ export default function runServer({ port = 8080 } = { port: 8080 }) {
 					'@fontoxml/fonto-benchmark-runner': `${__dirname}/../lib/benchmarkRunner/BenchmarkRunner.js`,
 				},
 			}),
-			resolve(),
+			nodeResolve(),
 			commonjs(),
 		],
 	});
