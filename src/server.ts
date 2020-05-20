@@ -29,11 +29,13 @@ export default function runServer({ port = 8080 } = { port: 8080 }) {
 	// TODO: do this in a watch
 	let program = ts.createProgram(fileNames, {
 		module: ts.ModuleKind.ESNext,
+		moduleResolution: ts.ModuleResolutionKind.NodeJs,
 		outDir: `${__dirname}/../tmp`,
 		strict: false,
 	});
 	let program2 = ts.createProgram(performanceTestFiles, {
 		module: ts.ModuleKind.ESNext,
+		moduleResolution: ts.ModuleResolutionKind.NodeJs,
 		outDir: `${__dirname}/../tmp/performance`,
 		paths: {
 			slimdom: [`${cwd}/node_modules/slimdom/dist/slimdom.d.ts`],
@@ -53,6 +55,7 @@ export default function runServer({ port = 8080 } = { port: 8080 }) {
 				name: 'run-performance-tests',
 				file: `${__dirname}/../lib/run-performance-tests.js`,
 				format: 'umd',
+				exports: 'named',
 				sourcemap: true,
 			},
 		],
