@@ -18,40 +18,42 @@ require('ts-node').register({
 // const startServer = require('../lib/server.js').default;
 const runTests = require('../lib/runBenchmarks.js').default;
 
-// const parseArgv = require('./parseArgv');
-// const packageJson = require('../package.json');
+const parseArgv = require('./parseArgv');
+const packageJson = require('../package.json');
 
 (async function() {
-	// const { server, port, node } = await parseArgv(packageJson, process.argv, {
-	// 	description: 'Run performance benchmarks on Fonto packages in Node or in the browser',
-	// 	options: {
-	// 		server: {
-	// 			identifier: '[--server]',
-	// 			description: 'Run benchmarks in the browser',
-	// 			defaultValue: false
-	// 		},
-	// 		port: {
-	// 			identifier: '[--port <port>]',
-	// 			description: 'Set a port for the server',
-	// 			defaultValue: 8080
-	// 		},
-	// 		node: {
-	// 			identifier: '[--node]',
-	// 			description: 'Run tests in Node',
-	// 			defaultValue: false
-	// 		}
-	// 	}
-	// });
+	const { /*server, port, node,*/ logInCsvFormat } = await parseArgv(packageJson, process.argv, {
+		description: 'Log performance results in compatible with csv format or easily readable format.',
+		options: {
+			// server: {
+			// 	identifier: '[--server]',
+			// 	description: 'Run benchmarks in the browser',
+			// 	defaultValue: false
+			// },
+			// port: {
+			// 	identifier: '[--port <port>]',
+			// 	description: 'Set a port for the server',
+			// 	defaultValue: 8080
+			// },
+			// node: {
+			// 	identifier: '[--node]',
+			// 	description: 'Run tests in Node',
+			// 	defaultValue: false
+			// },
+			logInCsvFormat: {
+				identifier: '[--log-csv]',
+				description: 'Log performance results in csv format or easily readable format.',
+				defaultValue: false
+			}
+		}
+	});
 
 	// if (node === server) {
 	// 	console.error('Either pass --server or --node');
 	// 	process.exit(-1);
 	// }
 
-
-	console.log(runTests);
-	runTests();
-
+	runTests(!!logInCsvFormat);
 
 	// if (server) {
 	// 	startServer(port);

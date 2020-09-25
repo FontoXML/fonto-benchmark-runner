@@ -21,7 +21,7 @@ class BenchmarkRunner extends BenchmarkCollection {
 		this._comparisons.length = 0;
 	}
 
-	public async run(): Promise<void> {
+	public async run(logInCsvFormat: boolean): Promise<void> {
 		let benchmarks = this._benchmarks;
 		let comparisons = this._comparisons;
 		if (this._only.hasBenchmarks()) {
@@ -30,13 +30,23 @@ class BenchmarkRunner extends BenchmarkCollection {
 		}
 
 		console.log(`Running ${benchmarks.length} benchmarks`);
+		if (logInCsvFormat && benchmarks.length > 0) {
+			console.log('test name, op/sec, rme, number of running');
+		}
 		for (const benchmark of benchmarks) {
 			if (benchmark.setup !== undefined) {
 				benchmark.setup();
 			}
 
 			benchmark.benchmark.on('complete', (event: Event) => {
-				console.log(String(event.target));
+				if (logInCsvFormat) {
+					const resultDetails = event.target as any;
+					console.log(
+						`${resultDetails.name}, ${resultDetails.hz}, ${resultDetails.stats.rme}%, ${resultDetails.stats.sample.length}`
+					);
+				} else {
+					console.log(String(event.target));
+				}
 
 				const error = (event.target as any).error;
 				if (error) {
@@ -59,26 +69,49 @@ class BenchmarkRunner extends BenchmarkCollection {
 			}
 		}
 
-		console.log(`Running ${comparisons.length} comparisons`);
+		console.log(`\nRunning ${comparisons.length} comparisons`);
+		if (logInCsvFormat && comparisons.length) {
+			console.log(
+				'comparison name, test name, op/sec, rme, number of running, comparison to first sample'
+			);
+		}
+
 		for (const comparison of comparisons) {
-			console.log(`------------${comparison.name}------------`);
+			if (!logInCsvFormat) {
+				console.log(`------------${comparison.name}------------`);
+			}
 
 			const operationsPerSecond: { name: string; ops: number }[] = [];
+			let baseHz = null;
 			for (const benchmark of comparison.benchmarks) {
 				if (comparison.setup !== undefined) {
 					await comparison.setup();
 				}
 
 				benchmark.on('complete', (event: Event) => {
-					console.log(String(event.target));
+					if (logInCsvFormat) {
+						const resultDetails = event.target as any;
+						if (baseHz === null) {
+							baseHz = resultDetails.hz;
+						}
+						console.log(
+							`${comparison.name}, ${resultDetails.name}, ${resultDetails.hz}, ${
+								resultDetails.stats.rme
+							}%, ${resultDetails.stats.sample.length}, ${
+								(resultDetails.hz / baseHz) * 100
+							}%`
+						);
+					} else {
+						console.log(String(event.target));
+					}
 
 					const error = (event.target as any).error;
 					if (error) {
 						console.error(error);
-					} else {
+					} else if (!logInCsvFormat) {
 						operationsPerSecond.push({
 							name: (benchmark as any).name,
-							ops: (event.target as any).hz as number
+							ops: (event.target as any).hz as number,
 						});
 					}
 				});
@@ -90,14 +123,18 @@ class BenchmarkRunner extends BenchmarkCollection {
 				}
 			}
 
-			operationsPerSecond.sort((a, b) => a.ops - b.ops);
-			const base = operationsPerSecond[0];
-			for (let i = 0; i < operationsPerSecond.length; i++) {
-				const ops = operationsPerSecond[i];
-				if (i === 0) {
-					console.log(`${ops.name} 100%`);
-				} else {
-					console.log(`${ops.name} ${(ops.ops / base.ops) * 100}%`);
+			// one line between each comparison set
+			console.log('');
+
+			if (!logInCsvFormat) {
+				const base = operationsPerSecond[0];
+				for (let i = 0; i < operationsPerSecond.length; i++) {
+					const ops = operationsPerSecond[i];
+					if (i === 0) {
+						console.log(`${ops.name} 100%`);
+					} else {
+						console.log(`${ops.name} ${(ops.ops / base.ops) * 100}%`);
+					}
 				}
 			}
 		}
